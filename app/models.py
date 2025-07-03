@@ -1,7 +1,7 @@
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Relationship
 from datetime import datetime, timezone
-from typing import Optional
-from sqlalchemy import Column, DateTime, text, Boolean, String
+from typing import Optional, List
+from sqlalchemy import Column, DateTime, text, Boolean, String, ForeignKey
 
 class Post(SQLModel, table=True):
     __tablename__ = "posts"
@@ -17,6 +17,14 @@ class Post(SQLModel, table=True):
         default_factory=lambda: datetime.now(timezone.utc),
         sa_column=Column(DateTime(timezone=True), server_default=text("CURRENT_TIMESTAMP"))
     )
+    user_id: int = Field(
+        sa_column=Column(
+            ForeignKey("users.id", ondelete="CASCADE"),
+            nullable=False
+        )
+    )
+
+    user: Optional["User"] = Relationship(back_populates="posts")
 
 class User(SQLModel, table=True):
     __tablename__ = "users"
@@ -27,4 +35,21 @@ class User(SQLModel, table=True):
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc),
         sa_column=Column(DateTime(timezone=True), server_default=text("CURRENT_TIMESTAMP"))
+    )
+    posts: List["Post"] = Relationship(back_populates="user")
+
+class Vote(SQLModel, table=True):
+    __tablename__ = "votes"
+
+    post_id: int = Field(
+        sa_column=Column(
+            ForeignKey("posts.id", ondelete="CASCADE"),
+            nullable=False, primary_key=True
+        )
+    )
+    user_id: int = Field(
+        sa_column=Column(
+            ForeignKey("users.id", ondelete="CASCADE"),
+            nullable=False, primary_key=True
+        )
     )

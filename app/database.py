@@ -1,13 +1,18 @@
 from sqlmodel import Session, SQLModel, create_engine
 from typing import Annotated
 from fastapi import Depends
+from .config import settings
+from urllib.parse import quote_plus
 
-SQLALCHEMY_DATABASE_URL = "postgresql+psycopg://postgres:Seneca%4012345%24@localhost/fastapi"
+encoded_password = quote_plus(settings.database_password)
+
+SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg://{settings.database_username}:{encoded_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=True)
 
 def create_db_and_tables():
-    SQLModel.metadata.create_all(engine)
+    ...
+    # SQLModel.metadata.create_all(engine)
 
 def get_session():
     with Session(engine) as session:
