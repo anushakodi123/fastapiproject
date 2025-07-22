@@ -16,7 +16,7 @@ bleach==6.2.0
 certifi==2025.1.31
 cffi==1.17.1
 charset-normalizer==3.4.1
-click==8.2.0
+click==8.1.8
 comm==0.2.2
 debugpy==1.8.13
 decorator==5.2.1
@@ -137,3 +137,7 @@ webencodings==0.5.1
 websocket-client==1.8.0
 websockets==15.0.1
 widgetsnbextension==4.0.13
+pydantic[email]==2.7.1
+pydantic-settings==2.2.1
+psycopg[binary]==3.1.18
+
