@@ -137,7 +137,7 @@ webencodings==0.5.1
 websocket-client==1.8.0
 websockets==15.0.1
 widgetsnbextension==4.0.13
-pydantic[email]==2.7.1
+pydantic[email]==2.11.5
 pydantic-settings==2.2.1
 psycopg[binary]==3.1.18
 
